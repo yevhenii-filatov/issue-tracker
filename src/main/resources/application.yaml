@@ -32,3 +32,6 @@ logging:
 springdoc:
   swagger-ui:
     path: /swagger
+
+jwt:
+  secret: r2r^FAtj5U
