@@ -38,7 +38,7 @@ public class SecurityConfiguration {
     private static final String TIMESTAMP = "timestamp";
     private static final String MESSAGE = "message";
     private static final RequestMatcher API_PROTECTED_URLS = new OrRequestMatcher(
-       new AntPathRequestMatcher("/users")
+       new AntPathRequestMatcher("/users/**")
     );
 
     private static final RequestMatcher API_WHITELISTED_URLS = new OrRequestMatcher(

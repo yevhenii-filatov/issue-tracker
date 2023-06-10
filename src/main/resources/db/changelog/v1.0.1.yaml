@@ -1,0 +1,13 @@
+databaseChangeLog:
+  - changeSet:
+      id: Add column 'password' to table 'users'
+      author: Nadia Filatova
+      changes:
+        - addColumn:
+            tableName: users
+            columns:
+              - column:
+                  name: password
+                  type: VARCHAR(255)
+                  constraints:
+                    nullable: false

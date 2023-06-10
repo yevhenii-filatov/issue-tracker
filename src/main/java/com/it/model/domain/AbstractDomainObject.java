@@ -35,4 +35,3 @@ public abstract class AbstractDomainObject implements Serializable {
         return this.getClass().getSimpleName();
     }
 }
-

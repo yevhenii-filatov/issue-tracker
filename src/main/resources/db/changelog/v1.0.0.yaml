@@ -55,11 +55,6 @@ databaseChangeLog:
                   type: VARCHAR(255)
                   constraints:
                     nullable: false
-        - sql:
-            comment: Insert Roles List
-            sql:
-              INSERT INTO roles (name) VALUES ('ADMIN');
-              INSERT INTO roles (name) VALUES ('CLIENT');
 
   - changeSet:
       id: Create Table 'users_roles'

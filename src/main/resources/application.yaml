@@ -16,8 +16,8 @@ spring:
     database-change-log-lock-table: database_changelog_lock
   datasource:
     url: jdbc:mysql://localhost:3307/issue-tracker
-    username: admin
-    password: admin
+    username: root
+    password: root
 
 logging:
   level:

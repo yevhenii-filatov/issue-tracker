@@ -18,7 +18,8 @@ import java.util.Set;
 @ToString(callSuper = true)
 @EqualsAndHashCode(callSuper = true)
 public class User extends AbstractDomainObject {
-    private Long id;
+    private String firstName;
+    private String lastName;
     private String username;
     private String email;
     private String password;

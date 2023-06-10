@@ -3,7 +3,6 @@ package com.it.mapper;
 import com.it.model.common.Role;
 import com.it.model.entity.RoleEntity;
 import org.mapstruct.Mapper;
-import org.mapstruct.Mapping;
 import org.mapstruct.NullValuePropertyMappingStrategy;
 
 import java.util.HashSet;
