@@ -116,7 +116,7 @@ databaseChangeLog:
                   constraints:
                     nullable: false
               - column:
-                  name: type
+                  name: task_type
                   type: VARCHAR(255)
                   constraints:
                     nullable: false

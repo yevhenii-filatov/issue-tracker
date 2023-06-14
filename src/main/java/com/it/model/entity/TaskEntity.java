@@ -38,9 +38,9 @@ public class TaskEntity {
     @JoinColumn(name = "reporter_id", nullable = false)
     private UserEntity reporter;
 
-    @Column(name = "type", nullable = false)
+    @Column(name = "task_type", nullable = false)
     @Enumerated(EnumType.STRING)
-    private TaskType type;
+    private TaskType taskType;
 
     @Column(name = "priority", nullable = false)
     @Enumerated(EnumType.STRING)

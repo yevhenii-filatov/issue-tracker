@@ -24,4 +24,5 @@ public class User extends AbstractDomainObject {
     private String email;
     private String password;
     private Set<Role> roles;
+    private Set<ProjectRegistration> registrations;
 }
