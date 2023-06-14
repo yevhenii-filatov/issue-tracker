@@ -1,6 +1,8 @@
 package com.it.security.configuration;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.it.controller.AuthenticationController;
+import com.it.controller.UserController;
 import com.it.security.authentication.AuthenticationFilter;
 import com.it.security.authentication.AuthenticationProvider;
 import com.it.security.service.JwtService;
@@ -38,7 +40,7 @@ public class SecurityConfiguration {
     private static final String TIMESTAMP = "timestamp";
     private static final String MESSAGE = "message";
     private static final RequestMatcher API_PROTECTED_URLS = new OrRequestMatcher(
-       new AntPathRequestMatcher("/users/**")
+       new AntPathRequestMatcher(UserController.USERS_MAPPING + "/**")
     );
 
     private static final RequestMatcher API_WHITELISTED_URLS = new OrRequestMatcher(
@@ -50,10 +52,8 @@ public class SecurityConfiguration {
        new AntPathRequestMatcher("/v3/api-docs/**"),
        new AntPathRequestMatcher("/proxy/**"),
 
-       new AntPathRequestMatcher("/auth/login"),
-       new AntPathRequestMatcher("/auth/refresh-token"),
-       new AntPathRequestMatcher("/auth/passwords/forgot"),
-       new AntPathRequestMatcher("/auth/passwords/reset")
+       new AntPathRequestMatcher(AuthenticationController.AUTHENTICATION_MAPPING + "/login"),
+       new AntPathRequestMatcher(AuthenticationController.AUTHENTICATION_MAPPING + "/refresh/token")
     );
 
     private final JwtService jwtService;
@@ -90,8 +90,7 @@ public class SecurityConfiguration {
 
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http,
-                                           AuthenticationManager authenticationManager,
-                                           AuthenticationFailureHandler defaultAuthenticationFailureHandler) throws Exception {
+                                           AuthenticationFilter authenticationFilter) throws Exception {
         return http
            .cors(AbstractHttpConfigurer::disable)
            .csrf(AbstractHttpConfigurer::disable)
@@ -100,7 +99,7 @@ public class SecurityConfiguration {
            .logout(AbstractHttpConfigurer::disable)
            .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
            .authenticationProvider(authenticationProvider)
-           .addFilterBefore(authenticationFilter(authenticationManager, defaultAuthenticationFailureHandler), AnonymousAuthenticationFilter.class)
+           .addFilterBefore(authenticationFilter, AnonymousAuthenticationFilter.class)
            .authorizeHttpRequests(customizer -> customizer
               .requestMatchers(API_WHITELISTED_URLS).permitAll()
               .requestMatchers(API_PROTECTED_URLS).authenticated()

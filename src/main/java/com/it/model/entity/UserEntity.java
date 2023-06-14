@@ -1,5 +1,6 @@
 package com.it.model.entity;
 
+import com.it.util.Encryptor;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
@@ -7,7 +8,9 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 /**
@@ -53,4 +56,11 @@ public class UserEntity {
        inverseJoinColumns = @JoinColumn(name = "role_id")
     )
     private Set<RoleEntity> roles = new HashSet<>();
+
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "user", orphanRemoval = true)
+    private List<RefreshTokenEntity> refreshTokens = new ArrayList<>();
+
+    public void setPassword(String password) {
+        this.password = Encryptor.sha(password);
+    }
 }

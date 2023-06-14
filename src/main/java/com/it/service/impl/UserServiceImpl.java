@@ -44,6 +44,9 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public User update(@NotNull Long userId, @NotNull User user) {
+        if (!userRepository.existsById(user.getId())) {
+            throw NotFoundException.ofId(user.getId(), UserEntity.class);
+        }
         return save(user);
     }
 

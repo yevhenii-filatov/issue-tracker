@@ -24,7 +24,7 @@ import java.io.IOException;
 @Component
 public class LoginFilter extends OncePerRequestFilter {
     private static final String REFRESH_TOKEN_HEADER = "Refresh-Token";
-    private static final String BEARER_PREFIX = "Bearer: ";
+    private static final String BEARER_PREFIX = "Bearer ";
     private static final String LOGIN_ENDPOINT = "/auth/login";
     private static final String REFRESH_TOKEN_ENDPOINT = "/auth/refresh/token";
 

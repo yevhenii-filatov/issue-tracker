@@ -30,7 +30,7 @@ import java.util.Set;
 public class JwtServiceImpl implements JwtService {
     private static final String USER_ID_CLAIM = "userId";
     private static final String USER_ROLES_CLAIM = "roles";
-    private static final String BEARER_PREFIX = "Bearer: ";
+    private static final String BEARER_PREFIX = "Bearer ";
 
     private final JwtProperties jwtProperties;
 

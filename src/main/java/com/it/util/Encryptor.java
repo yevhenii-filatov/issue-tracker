@@ -1,7 +1,8 @@
 package com.it.util;
 
-import org.apache.commons.lang3.StringUtils;
-import org.springframework.security.core.token.Sha512DigestUtils;
+import com.google.common.hash.Hashing;
+import jakarta.validation.constraints.NotBlank;
+import org.springframework.util.DigestUtils;
 
 import java.nio.charset.StandardCharsets;
 
@@ -15,11 +16,12 @@ public final class Encryptor {
         throw new UnsupportedOperationException("Utility class");
     }
 
-    public static String sha(String text) {
-        if (StringUtils.isBlank(text)) {
-            return null;
-        }
-        byte[] bytes = Sha512DigestUtils.sha(text.getBytes(StandardCharsets.UTF_8));
-        return new String(bytes, StandardCharsets.UTF_8);
+    public static String sha(@NotBlank String text) {
+        return Hashing.sha256().hashString(text, StandardCharsets.UTF_8).toString();
+    }
+
+    public static String md5Hex(@NotBlank String text) {
+        String firstIteration = DigestUtils.md5DigestAsHex(text.getBytes());
+        return DigestUtils.md5DigestAsHex(firstIteration.getBytes());
     }
 }

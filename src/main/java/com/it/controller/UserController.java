@@ -6,6 +6,7 @@ import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Positive;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
@@ -17,8 +18,9 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/users")
+@RequestMapping(UserController.USERS_MAPPING)
 public class UserController {
+    public static final String USERS_MAPPING = "/users";
     private static final String USER_ID_MAPPING = "/{userId}";
 
     private final UserService userService;
@@ -26,7 +28,7 @@ public class UserController {
     @PostMapping
     @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<User> register(@NotNull @Valid @RequestBody User user) {
-        return ResponseEntity.ok(userService.register(user));
+        return ResponseEntity.status(HttpStatus.CREATED).body(userService.register(user));
     }
 
     @GetMapping(USER_ID_MAPPING)

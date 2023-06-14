@@ -34,4 +34,4 @@ springdoc:
     path: /swagger
 
 jwt:
-  secret: r2r^FAtj5U
+  secret: zSUjJmmMbDy9N7y9xqVJrwDDr5MSu4JF3rmN9xKcupCHnJ6yD

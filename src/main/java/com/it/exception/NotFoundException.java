@@ -15,6 +15,6 @@ public class NotFoundException extends RuntimeException {
     }
 
     public static <T> NotFoundException ofId(T id, Class<?> type) {
-        return new NotFoundException(String.format("%s not found by ID = %s", type.getSimpleName(), id));
+        return new NotFoundException(String.format("%s not found by ID = %s", type.getName(), id));
     }
 }
