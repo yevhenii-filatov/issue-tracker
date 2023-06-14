@@ -1,10 +1,10 @@
 databaseChangeLog:
   - changeSet:
-      id: Create table 'refresh_tokens'
+      id: Create table 'project'
       author: Nadia Filatova
       changes:
         - createTable:
-            tableName: refresh_tokens
+            tableName: project
             columns:
               - column:
                   name: id
@@ -13,22 +13,267 @@ databaseChangeLog:
                   constraints:
                     nullable: false
                     primaryKey: true
-                    primaryKeyName: refresh_token_pkey
+                    primaryKeyName: project_pkey
               - column:
-                  name: token
+                  name: name
                   type: VARCHAR(255)
                   constraints:
                     nullable: false
+                    unique: true
+              - column:
+                  name: description
+                  type: VARCHAR(255)
               - column:
                   name: created_at
                   type: TIMESTAMP
               - column:
+                  name: owner_id
+                  type: BIGINT
+                  constraints:
+                    nullable: false
+
+        - addForeignKeyConstraint:
+            baseColumnNames: owner_id
+            baseTableName: project
+            constraintName: project_user_fk_1
+            referencedColumnNames: id
+            referencedTableName: users
+
+  - changeSet:
+      id: Create table 'project_registration'
+      author: Nadia Filatova
+      changes:
+        - createTable:
+            tableName: project_registration
+            columns:
+              - column:
+                  name: id
+                  type: BIGINT
+                  autoIncrement: true
+                  constraints:
+                    nullable: false
+                    primaryKey: true
+                    primaryKeyName: project_registration_pkey
+              - column:
+                  name: created_at
+                  type: TIMESTAMP
+                  constraints:
+                    nullable: false
+              - column:
+                  name: project_id
+                  type: BIGINT
+                  constraints:
+                    nullable: false
+              - column:
                   name: user_id
                   type: BIGINT
+                  constraints:
+                    nullable: false
+
+        - addForeignKeyConstraint:
+            baseColumnNames: project_id
+            baseTableName: project_registration
+            constraintName: project_registration_project_fk_1
+            referencedColumnNames: id
+            referencedTableName: project
 
         - addForeignKeyConstraint:
             baseColumnNames: user_id
-            baseTableName: refresh_tokens
-            constraintName: refresh_tokens_users_fk_1
+            baseTableName: project_registration
+            constraintName: project_registration_user_fk_1
             referencedColumnNames: id
             referencedTableName: users
+
+  - changeSet:
+      id: Create table 'task'
+      author: Nadia Filatova
+      changes:
+        - createTable:
+            tableName: task
+            columns:
+              - column:
+                  name: id
+                  type: BIGINT
+                  autoIncrement: true
+                  constraints:
+                    nullable: false
+                    primaryKey: true
+                    primaryKeyName: task_pkey
+              - column:
+                  name: title
+                  type: VARCHAR(255)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: description
+                  type: VARCHAR(255)
+              - column:
+                  name: assignee_id
+                  type: BIGINT
+              - column:
+                  name: reporter_id
+                  type: BIGINT
+                  constraints:
+                    nullable: false
+              - column:
+                  name: type
+                  type: VARCHAR(255)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: priority
+                  type: VARCHAR(255)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: parent_id
+                  type: BIGINT
+              - column:
+                  name: project_id
+                  type: BIGINT
+                  constraints:
+                    nullable: false
+
+        - addForeignKeyConstraint:
+            baseColumnNames: assignee_id
+            baseTableName: task
+            constraintName: task_user_fk_1
+            referencedColumnNames: id
+            referencedTableName: users
+
+        - addForeignKeyConstraint:
+            baseColumnNames: reporter_id
+            baseTableName: task
+            constraintName: task_user_fk_2
+            referencedColumnNames: id
+            referencedTableName: users
+
+        - addForeignKeyConstraint:
+            baseColumnNames: parent_id
+            baseTableName: task
+            constraintName: task_task_fk_1
+            referencedColumnNames: id
+            referencedTableName: task
+
+        - addForeignKeyConstraint:
+            baseColumnNames: project_id
+            baseTableName: task
+            constraintName: project_task_fk_1
+            referencedColumnNames: id
+            referencedTableName: project
+
+  - changeSet:
+      id: Create table 'label'
+      author: Nadia Filatova
+      changes:
+        - createTable:
+            tableName: label
+            columns:
+              - column:
+                  name: id
+                  type: BIGINT
+                  autoIncrement: true
+                  constraints:
+                    nullable: false
+                    primaryKey: true
+                    primaryKeyName: label_pkey
+              - column:
+                  name: text
+                  type: VARCHAR(255)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: task_id
+                  type: BIGINT
+                  constraints:
+                    nullable: false
+
+        - addForeignKeyConstraint:
+            baseColumnNames: task_id
+            baseTableName: label
+            constraintName: label_task_fk_1
+            referencedColumnNames: id
+            referencedTableName: task
+
+  - changeSet:
+      id: Create table 'comment'
+      author: Nadia Filatova
+      changes:
+        - createTable:
+            tableName: comment
+            columns:
+              - column:
+                  name: id
+                  type: BIGINT
+                  autoIncrement: true
+                  constraints:
+                    nullable: false
+                    primaryKey: true
+                    primaryKeyName: comment_pkey
+              - column:
+                  name: text
+                  type: VARCHAR(255)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: author_id
+                  type: BIGINT
+                  constraints:
+                    nullable: false
+              - column:
+                  name: task_id
+                  type: BIGINT
+                  constraints:
+                    nullable: false
+
+        - addForeignKeyConstraint:
+            baseColumnNames: author_id
+            baseTableName: comment
+            constraintName: comment_user_fk_1
+            referencedColumnNames: id
+            referencedTableName: users
+
+        - addForeignKeyConstraint:
+            baseColumnNames: task_id
+            baseTableName: comment
+            constraintName: comment_task_fk_1
+            referencedColumnNames: id
+            referencedTableName: task
+
+  - changeSet:
+      id: Create table 'custom_field'
+      author: Nadia Filatova
+      changes:
+        - createTable:
+            tableName: custom_field
+            columns:
+              - column:
+                  name: id
+                  type: BIGINT
+                  autoIncrement: true
+                  constraints:
+                    nullable: false
+                    primaryKey: true
+                    primaryKeyName: custom_field_pkey
+              - column:
+                  name: key
+                  type: VARCHAR(255)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: value
+                  type: VARCHAR(255)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: task_id
+                  type: BIGINT
+                  constraints:
+                    nullable: false
+
+        - addForeignKeyConstraint:
+            baseColumnNames: task_id
+            baseTableName: custom_field
+            constraintName: custom_field_task_fk_1
+            referencedColumnNames: id
+            referencedTableName: task

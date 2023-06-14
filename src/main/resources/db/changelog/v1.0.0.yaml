@@ -34,6 +34,16 @@ databaseChangeLog:
                   type: VARCHAR(255)
                   constraints:
                     nullable: false
+              - column:
+                  name: password
+                  type: VARCHAR(255)
+                  constraints:
+                    nullable: false
+
+        - sql:
+            comment: Create admin user for testing, password - 'qwerty'
+            sql:
+              INSERT INTO users (first_name, last_name, username, email, password) VALUES ('Nadia', 'Filatova', 'nadia.filatova', 'nadiakocheluk09@gmail.com', '65e84be33532fb784c48129675f9eff3a682b27168c0ea744b2cf58ee02337c5');
 
   - changeSet:
       id: Create Table 'roles'
@@ -55,6 +65,12 @@ databaseChangeLog:
                   type: VARCHAR(255)
                   constraints:
                     nullable: false
+
+        - sql:
+            comment: Create two base roles
+            sql:
+              INSERT INTO roles (name) VALUES ('ADMIN');
+              INSERT INTO roles (name) VALUES ('CLIENT');
 
   - changeSet:
       id: Create Table 'users_roles'
@@ -83,3 +99,8 @@ databaseChangeLog:
             constraintName: users_roles_fk_2
             referencedColumnNames: id
             referencedTableName: roles
+
+        - sql:
+            comment: Link admin user with admin role
+            sql:
+              INSERT INTO users_roles (user_id, role_id) VALUES (1, 1);

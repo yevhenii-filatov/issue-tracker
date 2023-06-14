@@ -60,6 +60,9 @@ public class UserEntity {
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "user", orphanRemoval = true)
     private List<RefreshTokenEntity> refreshTokens = new ArrayList<>();
 
+    @OneToMany(mappedBy = "user")
+    private Set<ProjectRegistrationEntity> registrations = new HashSet<>();
+
     public void setPassword(String password) {
         this.password = Encryptor.sha(password);
     }
