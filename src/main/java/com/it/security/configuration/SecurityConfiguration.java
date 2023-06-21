@@ -2,6 +2,8 @@ package com.it.security.configuration;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.it.controller.AuthenticationController;
+import com.it.controller.ProjectController;
+import com.it.controller.TaskController;
 import com.it.controller.UserController;
 import com.it.security.authentication.AuthenticationFilter;
 import com.it.security.authentication.AuthenticationProvider;
@@ -40,7 +42,9 @@ public class SecurityConfiguration {
     private static final String TIMESTAMP = "timestamp";
     private static final String MESSAGE = "message";
     private static final RequestMatcher API_PROTECTED_URLS = new OrRequestMatcher(
-       new AntPathRequestMatcher(UserController.USERS_MAPPING + "/**")
+       new AntPathRequestMatcher(UserController.USERS_MAPPING + "/**"),
+       new AntPathRequestMatcher(ProjectController.PROJECTS_MAPPING + "/**"),
+       new AntPathRequestMatcher(TaskController.TASKS_MAPPING + "/**")
     );
 
     private static final RequestMatcher API_WHITELISTED_URLS = new OrRequestMatcher(
