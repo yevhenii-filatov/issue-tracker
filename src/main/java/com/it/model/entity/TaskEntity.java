@@ -1,6 +1,7 @@
 package com.it.model.entity;
 
 import com.it.model.common.TaskPriority;
+import com.it.model.common.TaskStatus;
 import com.it.model.common.TaskType;
 import jakarta.persistence.*;
 import lombok.Getter;
@@ -45,6 +46,10 @@ public class TaskEntity {
     @Column(name = "priority", nullable = false)
     @Enumerated(EnumType.STRING)
     private TaskPriority priority;
+
+    @Column(name = "status", nullable = false)
+    @Enumerated(EnumType.STRING)
+    private TaskStatus status;
 
     @ManyToOne
     @JoinColumn(name = "project_id", nullable = false)

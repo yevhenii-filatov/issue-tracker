@@ -1,6 +1,7 @@
 package com.it.model.domain;
 
 import com.it.model.common.TaskPriority;
+import com.it.model.common.TaskStatus;
 import com.it.model.common.TaskType;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
@@ -26,6 +27,7 @@ public class Task extends AbstractDomainObject {
     private User reporter;
     private TaskType taskType;
     private TaskPriority priority;
+    private TaskStatus status;
     private Long projectId;
     private List<Label> labels;
     private List<Comment> comments;
