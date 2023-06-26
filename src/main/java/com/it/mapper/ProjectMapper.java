@@ -3,6 +3,7 @@ package com.it.mapper;
 import com.it.model.domain.Project;
 import com.it.model.entity.ProjectEntity;
 import org.mapstruct.Mapper;
+import org.mapstruct.Mapping;
 import org.mapstruct.NullValuePropertyMappingStrategy;
 
 /**
@@ -22,5 +23,6 @@ import org.mapstruct.NullValuePropertyMappingStrategy;
 public interface ProjectMapper {
     Project fromEntity(ProjectEntity entity);
 
+    @Mapping(target = "createdAt", expression = "java(java.time.LocalDateTime.now())")
     ProjectEntity toEntity(Project project);
 }
