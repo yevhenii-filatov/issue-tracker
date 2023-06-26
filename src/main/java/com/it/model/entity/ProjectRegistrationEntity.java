@@ -30,4 +30,12 @@ public class ProjectRegistrationEntity {
     @ManyToOne
     @JoinColumn(name = "user_id", nullable = false)
     private UserEntity user;
+
+    public static ProjectRegistrationEntity create(ProjectEntity projectEntity, UserEntity userEntity) {
+        ProjectRegistrationEntity entity = new ProjectRegistrationEntity();
+        entity.setProject(projectEntity);
+        entity.setUser(userEntity);
+        entity.setCreatedAt(LocalDateTime.now());
+        return entity;
+    }
 }
