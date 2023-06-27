@@ -12,7 +12,6 @@ import jakarta.validation.constraints.Positive;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 /**
@@ -20,7 +19,6 @@ import org.springframework.web.bind.annotation.*;
  * @since 6/21/23
  */
 
-@Validated
 @RestController
 @RequiredArgsConstructor
 @RequestMapping(ProjectController.PROJECTS_MAPPING)

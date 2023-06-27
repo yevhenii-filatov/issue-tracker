@@ -23,6 +23,8 @@ import org.mapstruct.NullValuePropertyMappingStrategy;
 )
 public interface TaskMapper {
     @Mapping(target = "projectId", source = "project.id")
+    @Mapping(target = "assigneeId", source = "assignee.id")
+    @Mapping(target = "reporterId", source = "reporter.id")
     Task fromEntity(TaskEntity entity);
 
     TaskEntity toEntity(Task task);

@@ -97,16 +97,18 @@ public class SecurityConfiguration {
                                            AuthenticationFilter authenticationFilter) throws Exception {
         return http
            .cors(AbstractHttpConfigurer::disable)
-           .csrf(AbstractHttpConfigurer::disable)
-           .formLogin(AbstractHttpConfigurer::disable)
-           .httpBasic(AbstractHttpConfigurer::disable)
-           .logout(AbstractHttpConfigurer::disable)
            .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
+           .exceptionHandling(c -> {})
            .authenticationProvider(authenticationProvider)
            .addFilterBefore(authenticationFilter, AnonymousAuthenticationFilter.class)
            .authorizeHttpRequests(customizer -> customizer
               .requestMatchers(API_WHITELISTED_URLS).permitAll()
               .requestMatchers(API_PROTECTED_URLS).authenticated()
-           ).build();
+           )
+           .csrf(AbstractHttpConfigurer::disable)
+           .formLogin(AbstractHttpConfigurer::disable)
+           .httpBasic(AbstractHttpConfigurer::disable)
+           .logout(AbstractHttpConfigurer::disable)
+           .build();
     }
 }

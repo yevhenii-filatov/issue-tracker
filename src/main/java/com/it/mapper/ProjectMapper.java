@@ -21,6 +21,7 @@ import org.mapstruct.NullValuePropertyMappingStrategy;
    }
 )
 public interface ProjectMapper {
+    @Mapping(target = "ownerId", source = "owner.id")
     Project fromEntity(ProjectEntity entity);
 
     @Mapping(target = "createdAt", expression = "java(java.time.LocalDateTime.now())")

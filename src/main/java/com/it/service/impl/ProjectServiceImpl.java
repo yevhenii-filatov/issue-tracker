@@ -44,9 +44,14 @@ public class ProjectServiceImpl implements ProjectService {
 
     @Override
     public Project create(@NotNull Project project) {
-        ProjectEntity mapped = projectMapper.toEntity(project);
-        ProjectEntity saved = projectRepository.save(mapped);
-        return projectMapper.fromEntity(saved);
+        return userRepository
+           .findById(project.getOwnerId())
+           .map(userEntity -> {
+               ProjectEntity mapped = projectMapper.toEntity(project);
+               mapped.setOwner(userEntity);
+               ProjectEntity saved = projectRepository.save(mapped);
+               return projectMapper.fromEntity(saved);
+           }).orElseThrow(() -> NotFoundException.ofId(project.getOwnerId(), UserEntity.class));
     }
 
     @Override

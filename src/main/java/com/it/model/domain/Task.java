@@ -23,8 +23,8 @@ import java.util.Set;
 public class Task extends AbstractDomainObject {
     private String title;
     private String description;
-    private User assignee;
-    private User reporter;
+    private Long assigneeId;
+    private Long reporterId;
     private TaskType taskType;
     private TaskPriority priority;
     private TaskStatus status;

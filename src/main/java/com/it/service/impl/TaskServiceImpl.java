@@ -8,10 +8,12 @@ import com.it.model.common.TaskPriority;
 import com.it.model.common.TaskStatus;
 import com.it.model.common.TaskType;
 import com.it.model.domain.Task;
+import com.it.model.entity.ProjectEntity;
 import com.it.model.entity.TaskEntity;
 import com.it.model.entity.UserEntity;
 import com.it.model.rest.Page;
 import com.it.model.rest.query.TaskQuery;
+import com.it.repository.ProjectRepository;
 import com.it.repository.TaskRepository;
 import com.it.repository.UserRepository;
 import com.it.service.TaskService;
@@ -41,12 +43,29 @@ public class TaskServiceImpl implements TaskService {
     private final PageableMapper pageableMapper;
     private final PageMapper pageMapper;
     private final UserRepository userRepository;
+    private final ProjectRepository projectRepository;
 
     @Override
     public Task create(@NotNull Task task) {
-        TaskEntity mapped = taskMapper.toEntity(task);
-        TaskEntity saved = taskRepository.save(mapped);
-        return taskMapper.fromEntity(saved);
+        return userRepository
+           .findById(task.getReporterId())
+           .map(reporterUserEntity -> userRepository
+              .findById(task.getAssigneeId())
+              .map(assigneeUserEntity -> projectRepository
+                 .findById(task.getProjectId())
+                 .map(projectEntity -> {
+                     TaskEntity mapped = taskMapper.toEntity(task);
+                     mapped.setReporter(reporterUserEntity);
+                     mapped.setAssignee(assigneeUserEntity);
+                     mapped.setProject(projectEntity);
+                     TaskEntity saved = taskRepository.save(mapped);
+                     return taskMapper.fromEntity(saved);
+                 })
+                 .orElseThrow(() -> NotFoundException.ofId(task.getProjectId(), ProjectEntity.class))
+              )
+              .orElseThrow(() -> NotFoundException.ofId(task.getAssigneeId(), UserEntity.class))
+           )
+           .orElseThrow(() -> NotFoundException.ofId(task.getReporterId(), UserEntity.class));
     }
 
     @Override
